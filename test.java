@@ -1,19 +1,23 @@
-#pragma version(1)
-#pragma rs java_package_name(com.android.example.hellocompute)
+private Bitmap mBitmapIn;
+    private Bitmap mBitmapOut;
+    private RenderScript mRS;
+    private Allocation mInAllocation;
+    private Allocation mOutAllocation;
+    private ScriptC_mono mScript;
 
-rs_allocation gIn;
-rs_allocation gOut;
-rs_script gScript;
+    private void createScript() {
+        mRS = RenderScript.create(this);
 
-const static float3 gMonoMult = {0.299f, 0.587f, 0.114f};
+        mInAllocation = Allocation.createFromBitmap(mRS, mBitmapIn,
+                                                    Allocation.MipmapControl.MIPMAP_NONE,
+                                                    Allocation.USAGE_SCRIPT);
+        mOutAllocation = Allocation.createTyped(mRS, mInAllocation.getType());
 
-void root(const uchar4 *v_in, uchar4 *v_out, const void *usrData, uint32_t x, uint32_t y) {
-    float4 f4 = rsUnpackColor8888(*v_in);
+        mScript = new ScriptC_mono(mRS, getResources(), R.raw.mono);
 
-    float3 mono = dot(f4.rgb, gMonoMult);
-    *v_out = rsPackColorTo8888(mono);
-}
-
-void filter() {
-    rsForEach(gScript, gIn, gOut, 0);
-}
+        mScript.set_gIn(mInAllocation);
+        mScript.set_gOut(mOutAllocation);
+        mScript.set_gScript(mScript);
+        mScript.invoke_filter();
+        mOutAllocation.copyTo(mBitmapOut);
+    }
