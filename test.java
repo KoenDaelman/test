@@ -1,9 +1,7 @@
-private long mExportVar_unsignedInteger;
-public void set_unsignedInteger(long v){
-    mExportVar_unsignedInteger = v;
-    setVar(mExportVarIdx_unsignedInteger, v);
-}
+typedef struct Point {
+    float2 position;
+    float size;
+} Point_t;
 
-public long get_unsignedInteger(){
-    return mExportVar_unsignedInteger;
-}
+Point_t *touchPoints;
+int32_t *intPointer;
