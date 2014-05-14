@@ -1,4 +1,4 @@
-private Bitmap mBitmapIn;
+    private Bitmap mBitmapIn;
     private Bitmap mBitmapOut;
     private RenderScript mRS;
     private Allocation mInAllocation;
