@@ -1,23 +1,12 @@
-typedef struct Point {
-    int x;
-    int y;
-} Point_t;
+point[index].x = 1;
+point[index].y = 1;
 
-Point_t point;
+ScriptField_Point p = new ScriptField_Point(mRS, 1);
+    Item i = new ScriptField_Point.Item();
+    i.x=100;
+    i.y = 100;
+    p.set(i, 0, true);
+    mScript.bind_point(p);
 
-point.x = 1;
-point.y = 1;
-
-ScriptC_rsfile mScript;
-
-...
-
-Item i = new ScriptField_Point.Item();
-i.x = 1;
-i.y = 1;
-mScript.set_point(i);
-
-rsDebug("Printing out a Point", point.x, point.y);
-
-Log.i("TAGNAME", "Printing out a Point: " + mScript.get_point().x + " " + mScript.get_point().y);
-System.out.println(point.get_x() + " " + point.get_y());
+    points.get_x(0);            //read x and y from index 0
+    points.get_x(0);
