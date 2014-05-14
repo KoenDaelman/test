@@ -1,23 +1,23 @@
-private RenderScript myRenderScript;
-private ScriptC_example script;
-private Resources resources;
+typedef struct Point {
+    int x;
+    int y;
+} Point_t;
 
-public void init(RenderScript rs, Resources res) {
-    myRenderScript = rs;
-    resources = res;
+Point_t point;
 
-    //allocate memory for the struct pointer, calling the constructor
-    ScriptField_Point touchPoints = new ScriptField_Point(myRenderScript, 2);
+point.x = 1;
+point.y = 1;
 
-    //Create an element manually and allocate memory for the int pointer
-    intPointer = Allocation.createSized(myRenderScript, Element.I32(myRenderScript), 2);
+ScriptC_rsfile mScript;
 
-    //create an instance of the RenderScript, pointing it to the bytecode resource
-    mScript = new ScriptC_example(myRenderScript, resources, R.raw.example);
+...
 
-    //bind the struct and int pointers to the RenderScript
-    mScript.bind_touchPoints(touchPoints);
-    script.bind_intPointer(intPointer);
+Item i = new ScriptField_Point.Item();
+i.x = 1;
+i.y = 1;
+mScript.set_point(i);
 
-   ...
-}
+rsDebug("Printing out a Point", point.x, point.y);
+
+Log.i("TAGNAME", "Printing out a Point: " + mScript.get_point().x + " " + mScript.get_point().y);
+System.out.println(point.get_x() + " " + point.get_y());
